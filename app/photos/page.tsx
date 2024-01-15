@@ -1,5 +1,7 @@
+import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
+import { signOut } from '../_lib/auth';
 import { getPhotos } from '../_lib/utils';
 
 export type Post = {
@@ -14,6 +16,14 @@ const PhotosPage = async () => {
   const photos = await getPhotos();
   return (
     <>
+      <form
+        action={async () => {
+          'use server';
+          await signOut();
+        }}
+      >
+        <Button variant='outline'>SignOut</Button>
+      </form>
       <div className=' grid grid-cols-5'>
         {photos?.map((item) => (
           <Link href={`/photos/${item.id}`} key={item.id} scroll={false}>
